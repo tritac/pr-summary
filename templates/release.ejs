@@ -5,16 +5,27 @@ prInfo.contributors.forEach(function(contributor) { -%>
 - [ ] @<%= contributor %>
 <% }); -%>
 
+## Jira JQL
+key IN (
+<% prInfo.prs.forEach(function(pr) { -%>
+	"K<%= pr.headRefName.split('/K')[1].substring(0, 5) %>",
+<% }); -%>
+)
+
 ## Merged Pull Requests
+
 
 <% prInfo.prs.forEach(function(pr) {
   var decorator = function(user) {
     return user.login ? ('@' + user.login) : 'left user';
   };
+  
   var author = pr.author ? pr.author : {};
   var participants = pr.participants.nodes.filter( function(participant){
      return participant.login !== author.login;
   }).map((user) => decorator(user)).join(', ');
 -%>
-- #<%= pr.number %> <%= pr.title %> by author: <%= decorator(author) %> participants: <%= participants %>
+
+- #<%= pr.number %>  <%= pr.title %> by author: <%= decorator(author) %> participants: <%= participants %>
 <% }); -%>
+

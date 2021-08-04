@@ -64,6 +64,7 @@ export class GitHubGraphQL {
             nodes {
               number
               title
+              headRefName
               mergeCommit {
                 oid
               }
